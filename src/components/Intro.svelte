@@ -24,7 +24,6 @@
 	import BrazilFlag from "../routes/_components/svg/brazilFlag.svelte";
 	import ModalButton from "../routes/_components/modal/ModalButton.svelte";
 
-	import buildPixPayload from "$lib/buildPix";
     import gotoBankList from "$lib/gotoBankList";
 
     let texts; 
@@ -35,9 +34,6 @@
 
     export let data;
     const {slugs, paymentData, search} = data;
-
-    console.log(slugs);
-    
     
 	$: method = slugs.method;    
 
@@ -49,21 +45,34 @@
     });
 
     let pixQR = "";
+    let pixCode = "carregando...";
 	$: selected = method && paymentData ? paymentData[method] : null;
     $: if(selected != undefined) {
-        if(selected.type == "pix") {
-            const obj = {
-                ...selected.pixData,
-                value: isNaN(slugs.value)? null: slugs.value,
-                message: slugs.message,
-            }
-            pixQR = buildPixPayload(obj);
+        pixQR = "";
+        pixCode = "carregando...";
+        if(selected.type == "pix" && typeof window !== "undefined")
+            generatePix();
+    }
 
-            if(pixQR.error) {
+    const generatePix = () => {
+        const obj = {
+            ...selected.pixData,
+            value: isNaN(slugs.value)? null: slugs.value,
+            message: slugs.message,
+        }
+
+        fetch("/api/genPix", {
+            method: "POST",
+            body: JSON.stringify(obj)
+        }).then(res => res.json()).then(ret => {
+            if(ret.error) {
                 alert("Erro ao gerar QR Code");
                 pixQR = "";
+            } else {
+                pixQR = ret.pixSvg;
+                pixCode = ret.pixPayload;        
             }
-        }
+        });
     }
 
 
@@ -82,6 +91,10 @@
         path += urlParams;
 
         if (getPath) return path;
+        
+        slugs.method = obj.method;
+        slugs.value = obj.value;
+        slugs.message = obj.message;
 
         goto(path);
     };
@@ -119,10 +132,7 @@
         share(str);
     }
 
-    onMount(()=>{
-        const params = new URLSearchParams(location.search);
-        searchParams = Object.fromEntries(params.entries());
-
+    onMount(async ()=>{
         document.querySelectorAll(".doHash").forEach(e=>e.href=gotoObj({...slugs, method: e.dataset.key}, true));
     });
 
@@ -149,12 +159,12 @@
                         <ContentArea>
                             <ContentTitle>código qr</ContentTitle>
                             <GeneralField>
-                                <ContentQr code={pixQR} />
+                                <ContentQr bind:code={pixQR} />
                             </GeneralField>
                             <div class="inlineField">
                                 <GeneralField>
                                     <ContentText> 
-                                        <QrText selection="all"> {pixQR} </QrText>
+                                        <QrText selection="all"> {pixCode} </QrText>
                                     </ContentText>
                                 </GeneralField>
 
@@ -171,7 +181,6 @@
                                     <ContentArea slot="content">
                                         <ContentTitle> Bancos Suportados </ContentTitle>
                                         <ContentTitle type="mini"> Selecione </ContentTitle>
-                                        
                                         
                                         {#each gotoBankList as bank}
                                             <a class="listItem" data-key={bank.name} href={bank.code}>    
@@ -286,21 +295,6 @@
                         </div>
                     </ContentArea>
                 </div>
-                <!--
-                
-                <Qrteste></Qrteste>
-                deve ter texto explicativo, nome do banco, imagem do banco, (opcional) mostrar o valor
-                
-                pegar banco dos parametros, nu se não tiver parametro
-                
-                encaixar o DarkModeSwitch dentro do ContentPanel
-                
-                mudar titulo da pagina
-                
-                transformar imagem em svg e estilizar
-                
-                enviar email com emailjs
-                -->
             {:else}
                 <div class="contentArea">
                     <ContentArea>

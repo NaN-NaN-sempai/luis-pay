@@ -11,19 +11,18 @@
     const src = "https://api.qrserver.com/v1/create-qr-code/?format=svg&size=200x200&data="+code;
 
     let path = "";
-    const roundness = 3;
+    let roundness = 10;
 
-    $: if (code) {
-        fetch(src)
-            .then(r => r.text())
-            .then(data => {                
-                path = data.match(/<path[^>]* d="([^"]*)"/)[1];
-
-                let union = simplifyPath(path); 
-
-                let round = roundCorners(union, roundness, 2);
-                path = round.path;
-            });
+    $: if (code) {        
+        const match = code.replace(/\n/g, "").match(/<path[^>]* d="([^"]*)"/);
+        if (match) {
+            path = match[1];
+            let union = simplifyPath(path);
+            let round = roundCorners(union, roundness, 2);
+            path = round.path;
+        } else {
+            path = "";
+        }
     }
 </script>
 

@@ -54,7 +54,7 @@ const paymentData = {
 	}
 };
 
-/** @type {import('../../$types').PageLoad} */
+/** @type {import('../../../$types').PageLoad} */
 export function load({ params, url }) {
 	const slugs = {
 		method: params.method,
