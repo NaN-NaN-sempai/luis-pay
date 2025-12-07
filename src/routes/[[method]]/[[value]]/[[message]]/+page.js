@@ -15,7 +15,8 @@ const defaultOwnerCnpj = {
 const defaultPixData = {
 	key: '',
 	name: 'LUIS HENRIQUE DE ALMEIDA',
-	city: 'SR DO BONFIM'
+	city: 'SR DO BONFIM',
+	cep: "48970000",
 };
 
 const paymentData = {

@@ -25,6 +25,7 @@
 	import ModalButton from "../routes/_components/modal/ModalButton.svelte";
 
     import gotoBankList from "$lib/gotoBankList";
+	import buildPixPayload from "$lib/buildPix";
 
     let texts; 
     translations.subscribe(value => {
@@ -48,31 +49,16 @@
     let pixCode = "carregando...";
 	$: selected = method && paymentData ? paymentData[method] : null;
     $: if(selected != undefined) {
-        pixQR = "";
-        pixCode = "carregando...";
-        if(selected.type == "pix" && typeof window !== "undefined")
-            generatePix();
-    }
-
-    const generatePix = () => {
-        const obj = {
-            ...selected.pixData,
-            value: isNaN(slugs.value)? null: slugs.value,
-            message: slugs.message,
-        }
-
-        fetch("/api/genPix", {
-            method: "POST",
-            body: JSON.stringify(obj)
-        }).then(res => res.json()).then(ret => {
-            if(ret.error) {
-                alert("Erro ao gerar QR Code");
-                pixQR = "";
-            } else {
-                pixQR = ret.pixSvg;
-                pixCode = ret.pixPayload;        
+        if(selected.type == "pix") {
+            const obj = {
+                ...selected.pixData,
+                value: isNaN(slugs.value)? null: slugs.value,
+                message: slugs.message,
             }
-        });
+            const qr = buildPixPayload(obj); 
+            pixQR = qr;
+            pixCode = qr;
+        }
     }
 
 

@@ -1,27 +1,16 @@
-import { createStaticPix, hasError } from 'pix-utils';
+import {PixSync} from "$lib/buildPix/fazumpix.js";
 
 export default function buildPixPayload(obj) {
-	const { key, value, name, city, message } = obj;
-
-	console.log(value, typeof value);
+	const { key, value, name, city, cep, message } = obj;
 	
+	return PixSync(
+		key,
+		name,
+		city,
+		value,
+		message || "",
+	);
 
-	const pix = createStaticPix({
-		merchantName: name,
-		merchantCity: city,
-		pixKey: key,
-		transactionAmount: parseFloat(value),
-		infoAdicional: message,
-	});
-
-
-	if (!hasError(pix)) {
-		return pix.toBRCode();
-	}
-
-	return {
-		error: true
-	};
 	
 	/* 
 	const formatField = (id, value) => {
