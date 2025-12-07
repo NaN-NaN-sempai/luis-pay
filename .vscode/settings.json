@@ -16,12 +16,12 @@
         ".npmrc": true,
         ".prettierignore": true,
         ".prettierrc": true,
-        "jsconfig.json": true,
         "package-lock.json": true,
         "package.json": true,
         "playwright.config.js": true,
+        "vite.config.js.timestamp-1725333916297-956a8d71fab2b.mjs": true,
         "pnpm-lock.yaml": true,
-        "vite.config.js.timestamp-1725333916297-956a8d71fab2b.mjs": true
+        "jsconfig.json": true
     },
     "hide-files.files": [
         ".svelte-kit",
@@ -34,11 +34,11 @@
         ".npmrc",
         ".prettierignore",
         ".prettierrc",
-        "jsconfig.json",
         "package-lock.json",
         "package.json",
         "playwright.config.js",
+        "vite.config.js.timestamp-1725333916297-956a8d71fab2b.mjs",
         "pnpm-lock.yaml",
-        "vite.config.js.timestamp-1725333916297-956a8d71fab2b.mjs"
+        "jsconfig.json"
     ]
 }
