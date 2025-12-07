@@ -1,4 +1,4 @@
-import buildPixPayload from "$lib/buildPix";
+import { createStaticPix } from "pix-utils";
 
 export async function POST({ request }) {
     const obj = await request.json();
