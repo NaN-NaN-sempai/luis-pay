@@ -159,7 +159,7 @@
                                 </ContentButton>
                             </div>
                             <div class="inlineField">
-                                <ModalButton type="fit-container">
+                                <!-- <ModalButton type="fit-container">
                                     <span slot="text">
                                         Ir ao app do Banco <i class="fa-solid fa-mobile-screen-button"></i>
                                     </span>
@@ -176,18 +176,18 @@
                                             </a>
                                         {/each}
                                     </ContentArea>
-                                </ModalButton>
+                                </ModalButton> -->
                             </div>
+                            {#if selected.type == "pix"}
+                                <ContentBanner>
+                                    <PixSvg />
+                                </ContentBanner> 
+                            {/if}
                         </ContentArea>
                     </div>
                 {/if}
 
                 <div class="contentArea">
-                    {#if selected.type == "pix"}
-                        <ContentBanner>
-                            <PixSvg />
-                        </ContentBanner> 
-                    {/if}
 
                     <ContentArea>
                         <ContentTitle>Informações</ContentTitle>
