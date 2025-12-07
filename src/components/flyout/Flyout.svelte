@@ -17,10 +17,12 @@
     <Icon size={"200px"} />
 
     <div class="name">
-        <Title  name={true}>Luís Henrique de Almeida</Title>
+        <Title  name={true}>Luís Henrique Space</Title>
     </div>
 
-    <Title>{texts.contacts}:</Title>
+    <span class="hideInScreenMini">
+        <Title>{texts.contacts}:</Title>
+    </span>
     
     <div class="itemList">
         <a class="link item"
@@ -44,13 +46,13 @@
             </CompoundItem>
         </a>
     
-        <a class="link item" href={"https://"+domain} target="_blank">
+        <a class="link item hideInScreenMini" href={"https://"+domain} target="_blank">
             <CompoundItem icon="Website">
                 {domain}
             </CompoundItem>
         </a>
 
-        <a class="link item" href="https://github.com/NaN-NaN-sempai" target="_blank">
+        <a class="link item hideInScreenMini" href="https://github.com/NaN-NaN-sempai" target="_blank">
             <CompoundItem icon="Github">
                 NaN-NaN-sempai
             </CompoundItem>
@@ -154,6 +156,10 @@
             .item {
                 width: 200px;
             }
+        }
+
+        .hideInScreenMini {
+            display: none;
         }
     }
 </style>

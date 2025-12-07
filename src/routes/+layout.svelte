@@ -9,6 +9,10 @@
 	import Footer from '$components/footer/Footer.svelte';
 </script>
 
+<svelte:head>
+	<title>Pay | Luís Henrique | {new Date().getFullYear()}</title>
+</svelte:head>
+
 <div class="container">
 	<div class="inner">
 		<div class="hidden">

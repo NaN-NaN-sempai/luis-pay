@@ -13,15 +13,19 @@
 	import ContentText from "../routes/_components/ContentText.svelte";
 	import QrText from "../routes/_components/QrText.svelte";
 	import ContentButton from "../routes/_components/ContentButton.svelte";
-	import PixSvg from "../routes/_components/PIX_SVG.svelte";
+	import PixSvg from "../routes/_components/svg/PIX_SVG.svelte";
 	import ContentBanner from "../routes/_components/ContentBanner.svelte";
 	import ContentTextWIthTitle from "../routes/_components/ContentTextWIthTitle.svelte";
 	import IconField from "../routes/_components/IconField.svelte";
 	import { goto } from "$app/navigation";
 	import { page } from "$app/stores";
 	import { onMount } from "svelte";
-	import buildPixPayload from "$lib/buildPix";
 	import DarkModeSwitch from "./DarkModeSwitch.svelte";
+	import BrazilFlag from "../routes/_components/svg/brazilFlag.svelte";
+	import ModalButton from "../routes/_components/modal/ModalButton.svelte";
+
+	import buildPixPayload from "$lib/buildPix";
+    import gotoBankList from "$lib/gotoBankList";
 
     let texts; 
     translations.subscribe(value => {
@@ -31,11 +35,11 @@
 
     export let data;
     const {slugs, paymentData, search} = data;
-    
-	$: method = slugs.method;
+
     console.log(slugs);
     
-
+    
+	$: method = slugs.method;    
 
     let list =  Object.entries(paymentData).map(e => {
         let item = e[1];
@@ -63,7 +67,7 @@
     }
 
 
-    const gotoObj = (obj, getPath = false) => {
+    const gotoObj = (obj, getPath = false, appendSearch = "", appendHash  = "") => {
         let path = `/${paymentData[obj.method] !== undefined ? obj.method : "_"}`; 
         if (obj.value) path += `/${obj.value}`;
 
@@ -73,7 +77,7 @@
             let search = window.location.search || '';
             let hash = window.location.hash || '';
 
-            urlParams += search + hash;
+            urlParams += (search || appendSearch) + (hash || appendHash);
         }
         path += urlParams;
 
@@ -82,9 +86,12 @@
         goto(path);
     };
 
-    let qrCodeGenerated = "";
     const copyCode = () => {
-        console.log("not yet implemented")
+        if(navigator.clipboard){
+            navigator.clipboard.writeText(pixQR);
+        } else {
+            alert("Seu navegador não suporta copiar a função de copiar.");
+        }
     }
 
     const share = (shareText) => {
@@ -129,9 +136,9 @@
     <div class="right">
         <div class="contentHeader">
             <div class="year">
-                <Year> <span class="hidden">{texts.curriculum.toUpperCase()}</span> 2025 </Year>
+                <Year> <span class="hidden">PAY - </span> {new Date().getFullYear()} </Year>
             </div>
-            <h1 class="title">Luís Henrique de Almeida</h1>
+            <h1 class="title">Luís Henrique Space</h1>
         </div>
         <div class="content">
             <ContentPanel>
@@ -156,9 +163,25 @@
                                 </ContentButton>
                             </div>
                             <div class="inlineField">
-                                <ContentButton type="fit-container">
-                                    Ir ao app do Banco <i class="fa-solid fa-mobile-screen-button"></i>
-                                </ContentButton>
+                                <ModalButton type="fit-container">
+                                    <span slot="text">
+                                        Ir ao app do Banco <i class="fa-solid fa-mobile-screen-button"></i>
+                                    </span>
+                                    
+                                    <ContentArea slot="content">
+                                        <ContentTitle> Bancos Suportados </ContentTitle>
+                                        <ContentTitle type="mini"> Selecione </ContentTitle>
+                                        
+                                        
+                                        {#each gotoBankList as bank}
+                                            <a class="listItem" data-key={bank.name} href={bank.code}>    
+                                                <IconField icon={bank.img} bg={bank.bg}>
+                                                    {bank.name}
+                                                </IconField>
+                                            </a>
+                                        {/each}
+                                    </ContentArea>
+                                </ModalButton>
                             </div>
                         </ContentArea>
                     </div>
@@ -175,7 +198,7 @@
                         <ContentTitle>Informações</ContentTitle>
                         
                         {#if !isNaN(slugs.value)}  
-                        <ContentTextWIthTitle name="Valor" type="value" value={slugs.value}/>
+                        <ContentTextWIthTitle name="Valor" type="value" value={slugs.value} readonly={search.vrd!=="1"}/>
                         {/if}
 
                         <IconField icon={selected.icon} bg={selected.bg} selection="all">
@@ -208,7 +231,7 @@
 
                                 <a class="doHash buttonContainer" data-key="_" on:click|preventDefault={() => gotoObj({...slugs, method: method.key})} href>
                                     <ContentButton>
-                                        ➽
+                                        <i class="fa-solid fa-list"></i>
                                     </ContentButton>
                                 </a>
                             </div>
@@ -281,14 +304,40 @@
             {:else}
                 <div class="contentArea">
                     <ContentArea>
+                        <div class="inlineField">
+                            <GeneralField style="width: 100%;">
+                                <ContentText style="text-align: left; width: 100%;">
+                                    Mudar modo de cor
+                                </ContentText>
+                            </GeneralField>
+
+
+                            <div class="buttonContainer">
+                                <ContentButton action={dmSwitch?.switchState}>
+                                    <i class="fa-solid fa-circle-half-stroke"></i>
+                                </ContentButton>
+                            </div>
+                            <div class="dmSwitch" style="display:none">
+				                <DarkModeSwitch bind:this={dmSwitch} style="transform: scale(0.6); margin: -15px -27px -20px -27px; filter: none;" />
+                            </div>
+                        </div>
+                    </ContentArea>
+
+                    <ContentArea>
                         <ContentTitle> Selecione </ContentTitle>
-                        <ContentTitle type="sub"> [svg br & color] - Brasil </ContentTitle>
-                        <ContentTitle type="mini"> [svg pix] - PIX </ContentTitle>
+                        <ContentBanner color="#009440">
+                            <BrazilFlag />
+                        </ContentBanner>
+                        <div class="space" style="--size: 5px"/>
+                        <ContentBanner type="mini">
+                            <PixSvg />
+                        </ContentBanner>
+                        <div class="space"/>
                         
                         {#each list as method}
-                            <a class="listItem doHash" data-key={method.key} on:click|preventDefault={() => gotoObj({...slugs, method: method.key})} href>    
+                            <a class="listItem doHash" data-key={method.key} on:click|preventDefault={() => gotoObj({...slugs, method: method.key}, false, "?lm=1")} href>    
                                 <IconField icon={method.icon} bg={method.bg}>
-                                    {method.type.toUpperCase()} - {method.name}
+                                    {method.name}
                                 </IconField>
                             </a>
                         {/each}
@@ -327,12 +376,22 @@
             width: 100%;
         }
 
+        a.listItem {
+            text-decoration: none;
+            color: inherit;
+        }
+
         .contentArea {
             max-width: 250px;
             width: 100%;
             display: flex;
             flex-direction: column;
             gap: 10px;
+
+            .space {
+                --size: 0;
+                height: var(--size);
+            }
 
             .inlineField {
                 width: 100%;

@@ -1,8 +1,10 @@
 <script>
     export let color = "#FFFFFF";
+    export let textColor = "#000";
+    export let type = "";
 </script>
 
-<div>
+<div style="--color: {color}; --textColor: {textColor};" class={type} >
     <slot></slot>
 </div> 
 
@@ -22,6 +24,12 @@
         padding: 10px;
         width: 100%;
         box-sizing: border-box;
+
+        color: var(--textColor);
         
+        &.mini {
+            height: 35px;
+            padding: 5px;
+        }
     }
 </style>

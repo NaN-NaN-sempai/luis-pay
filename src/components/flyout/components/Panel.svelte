@@ -28,6 +28,8 @@
             box-shadow: 0 10px 7px 2px rgba(0, 0, 0, 0.25);
 
             margin: 30px;
+            margin-top: 0;
+            
             --border: 500px;
             --borderB: 80px;
             border-radius:

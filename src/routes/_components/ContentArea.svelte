@@ -18,19 +18,4 @@
         width: 100%;
         box-sizing: border-box;
     }
-    
-    @media only screen and (max-width: defaults.$mediaMaxWidth) { 
-        div {
-            background: linear-gradient(to top, palette.$secondary 10%, transparent);
-
-            margin: 30px;
-            --border: 500px;
-            --borderB: 80px;
-            border-radius:
-                var(--border)
-                var(--border)
-                var(--borderB)
-                var(--borderB);
-        }
-    }
 </style>

@@ -1,25 +1,29 @@
-import { error } from '@sveltejs/kit';
 import { createStaticPix, hasError } from 'pix-utils';
 
 export default function buildPixPayload(obj) {
 	const { key, value, name, city, message } = obj;
 
+	console.log(value, typeof value);
+	
+
 	const pix = createStaticPix({
 		merchantName: name,
 		merchantCity: city,
 		pixKey: key,
-		infoAdicional: 'teste',
+		transactionAmount: parseFloat(value),
+		infoAdicional: message,
 	});
 
 
 	if (!hasError(pix)) {
 		return pix.toBRCode();
-	} else {
-		return {
-			error: true
-		};
 	}
 
+	return {
+		error: true
+	};
+	
+	/* 
 	const formatField = (id, value) => {
 		const length = value.length.toString().padStart(2, '0');
 		return `${id}${length}${value}`;
@@ -59,7 +63,7 @@ export default function buildPixPayload(obj) {
 	const crc = calculateCRC16(payload + '6304');
 
 	// Retorna o payload completo com CRC
-	return payload + '63' + '04' + crc;
+	return payload + '63' + '04' + crc; */
 }
 
 // Função CRC16-CCITT (polinômio 0x1021)

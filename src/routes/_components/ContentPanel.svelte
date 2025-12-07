@@ -21,4 +21,10 @@
         box-shadow: -15px 19px 5px 1px rgba(0, 0, 0, 0.25);
         padding: 10px;
     }
+    
+    @media only screen and (max-width: defaults.$mediaMaxWidth) { 
+        div {
+            margin-inline: 20px;
+        }
+    }
 </style>

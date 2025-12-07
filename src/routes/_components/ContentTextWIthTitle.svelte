@@ -26,7 +26,9 @@
                 <div class="displayText">
                     {#if type == "value"}
                     <p class="coin"> R$ </p>
-                    <p class="text"> {displayText} </p>
+                    <input class="text value" type="text" bind:value={displayText} {readonly} />
+
+                    
                     {:else}
                     <input class="text" type="text" bind:value={displayText} {readonly} />
                     {/if}
@@ -53,6 +55,12 @@
 
                 .coin {
                     text-align: left;
+                }
+
+                .text.value {
+                    text-align: right;
+                    width:100%;
+                    font-size: 1rem;
                 }
                 
                 input.text {

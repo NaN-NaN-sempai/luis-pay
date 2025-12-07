@@ -118,8 +118,6 @@
         if(summarizedLang == undefined && summerizing) popupWarn.show(fallbackLang.content.noSummarized.text);
 
         translations.set(fallbackLang.content);
-        
-        document.title = `Luís Henrique de Almeida | ${fallbackLang.content.curriculum.toUpperCase()} | 2025`;
     }
 
     const saveCheck = (element) => {
