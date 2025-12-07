@@ -31,8 +31,8 @@
     <svg class="QR" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 164" preserveAspectRatio="xMidYMid meet" data-src={src}>
         <title>{title}</title>
         <desc>{code}</desc>
-        <rect xmlns="http://www.w3.org/2000/svg" rx={roundness * 2} x="0" y="0" width="164" height="164"/>
         <g id="elements">
+            <rect xmlns="http://www.w3.org/2000/svg" rx={roundness * 2} x="0" y="0" width="164" height="164"/>
             <path d="{path}"/>
         </g>
     </svg>

@@ -2,6 +2,8 @@
 	import GeneralField from "./GeneralField.svelte";
 
     export let value = 0; 
+    export let type = "";
+    export let readonly = true;
     export let name = "Field Name";
 
     function formatNumber(num) {
@@ -11,7 +13,7 @@
         }).format(num.replace(",", "."));
     }
 
-    let displayAmount = formatNumber(value);
+    let displayText = isNaN(value)? value: formatNumber(value);
 
 </script>
 
@@ -19,11 +21,15 @@
     <GeneralField>
         <p class="title">{name}</p>
         
-        <div class="value">
+        <div class="textContainer">
             <GeneralField color="primary">
-                <div class="displayAmount">
+                <div class="displayText">
+                    {#if type == "value"}
                     <p class="coin"> R$ </p>
-                    <p class="amount"> {displayAmount} </p>
+                    <p class="text"> {displayText} </p>
+                    {:else}
+                    <input class="text" type="text" bind:value={displayText} {readonly} />
+                    {/if}
                 </div>
             </GeneralField>
         </div>
@@ -35,11 +41,11 @@
     .container {
         width: 100%;
 
-        .value {
+        .textContainer {
             width: 100%;
             font-size: 1rem;
 
-            .displayAmount {
+            .displayText {
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
@@ -47,6 +53,12 @@
 
                 .coin {
                     text-align: left;
+                }
+                
+                input.text {
+                    background: none;
+                    color: palette.$highlight;
+                    border: none;
                 }
             }
         }

@@ -15,7 +15,7 @@
 	import ContentButton from "../routes/_components/ContentButton.svelte";
 	import PixSvg from "../routes/_components/PIX_SVG.svelte";
 	import ContentBanner from "../routes/_components/ContentBanner.svelte";
-	import ContentValue from "../routes/_components/ContentValue.svelte";
+	import ContentTextWIthTitle from "../routes/_components/ContentTextWIthTitle.svelte";
 	import IconField from "../routes/_components/IconField.svelte";
 	import { goto } from "$app/navigation";
 	import { page } from "$app/stores";
@@ -28,11 +28,13 @@
         texts = value;
     });
 
-	$: method = $page.params.method;
 
     export let data;
-    const {slugs, paymentData} = data;
-    let searchParams = {};
+    const {slugs, paymentData, search} = data;
+    
+	$: method = slugs.method;
+    console.log(slugs);
+    
 
 
     let list =  Object.entries(paymentData).map(e => {
@@ -49,10 +51,14 @@
             const obj = {
                 ...selected.pixData,
                 value: isNaN(slugs.value)? null: slugs.value,
-                message: searchParams.message,
-                // message comes from hash
+                message: slugs.message,
             }
             pixQR = buildPixPayload(obj);
+
+            if(pixQR.error) {
+                alert("Erro ao gerar QR Code");
+                pixQR = "";
+            }
         }
     }
 
@@ -81,12 +87,34 @@
         console.log("not yet implemented")
     }
 
+    const share = (shareText) => {
+        if(navigator.share) {
+            navigator.share({
+                title: `Pay - Luís Henrique | Type: ${selected.type} | Value: ${slugs.value}`,
+                text: `Type: ${selected.type}\n${slugs.method}\nValue: ${slugs.value}\nMessage: ${slugs.message}`,
+                url: shareText + location.search,
+            });
+
+        } else {
+            if(navigator.clipboard){
+                navigator.clipboard.writeText(shareText + location.search);
+            } else {
+                alert("Seu navegador não suporta copiar a função de copiar.");
+            }
+        }
+    }
+
+    const sharePayment = () => {
+        const path = `${slugs.method || ""}${ slugs.value ? "/" + slugs.value : ""}${ slugs.message ? "/" + encodeURIComponent(slugs.message) : ""}`;
+        
+        const str = `${location.origin}/enc/${btoa(path)}`;
+
+        share(str);
+    }
+
     onMount(()=>{
         const params = new URLSearchParams(location.search);
         searchParams = Object.fromEntries(params.entries());
-        console.log(searchParams);
-
-        console.log(dmSwitch)
 
         document.querySelectorAll(".doHash").forEach(e=>e.href=gotoObj({...slugs, method: e.dataset.key}, true));
     });
@@ -129,7 +157,7 @@
                             </div>
                             <div class="inlineField">
                                 <ContentButton type="fit-container">
-                                    Ir ao app do Banco ➽
+                                    Ir ao app do Banco <i class="fa-solid fa-mobile-screen-button"></i>
                                 </ContentButton>
                             </div>
                         </ContentArea>
@@ -141,12 +169,13 @@
                         <ContentBanner>
                             <PixSvg />
                         </ContentBanner> 
-                    {/if}                     
+                    {/if}
+
                     <ContentArea>
                         <ContentTitle>Informações</ContentTitle>
                         
                         {#if !isNaN(slugs.value)}  
-                        <ContentValue name="Valor" value={slugs.value}/>
+                        <ContentTextWIthTitle name="Valor" type="value" value={slugs.value}/>
                         {/if}
 
                         <IconField icon={selected.icon} bg={selected.bg} selection="all">
@@ -161,11 +190,17 @@
                             {selected.owner.code}
                         </IconField>
                     </ContentArea>
+                    
+                    {#if slugs.message}  
+                    <ContentArea>
+                        <ContentTextWIthTitle name="Mensagem" value={slugs.message} readonly={search.mrd!=="1"}/>
+                    </ContentArea>
+                    {/if}
                 </div>
                 <div class="contentArea">
                     <ContentArea>
                         <ContentTitle> Mais </ContentTitle>
-                        {#if searchParams.lm == "1"}
+                        {#if search.lm == "1"}
                             <div class="inlineField">
                                 <GeneralField style="width: 100%;">
                                     <ContentText style="text-align: left; width: 100%;"> Outras formas de pagamento </ContentText>
@@ -188,7 +223,7 @@
 
                             <div class="buttonContainer">
                                 <ContentButton action={dmSwitch?.switchState}>
-                                    ☀
+                                    <i class="fa-solid fa-circle-half-stroke"></i>
                                 </ContentButton>
                             </div>
                             <div class="dmSwitch" style="display:none">
@@ -201,28 +236,28 @@
                         <div class="inlineField">
                             <GeneralField style="width: 100%;">
                                 <ContentText style="text-align: left; width: 100%;">
-                                    Compartilhar este link
+                                    Compartilhar este pagamento
                                 </ContentText>
                             </GeneralField>
 
 
                             <div class="buttonContainer">
-                                <ContentButton type="fit-container">
-                                    ?
+                                <ContentButton type="fit-container" action={sharePayment}>
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
                                 </ContentButton>
                             </div>
                         </div>
                         <div class="inlineField">
                             <GeneralField style="width: 100%;">
                                 <ContentText style="text-align: left; width: 100%;">
-                                    Compartilhar o site
+                                    Compartilhar site
                                 </ContentText>
                             </GeneralField>
 
 
                             <div class="buttonContainer">
-                                <ContentButton type="fit-container">
-                                    ?
+                                <ContentButton type="fit-container" action={()=>share(location.origin)}>
+                                    <i class="fa-solid fa-share-nodes"></i>
                                 </ContentButton>
                             </div>
                         </div>
@@ -290,11 +325,10 @@
 
         .listItem {
             width: 100%;
-            
         }
 
         .contentArea {
-            max-width: 400px;
+            max-width: 250px;
             width: 100%;
             display: flex;
             flex-direction: column;

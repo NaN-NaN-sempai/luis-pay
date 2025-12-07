@@ -1,5 +1,24 @@
+import { error } from '@sveltejs/kit';
+import { createStaticPix, hasError } from 'pix-utils';
+
 export default function buildPixPayload(obj) {
 	const { key, value, name, city, message } = obj;
+
+	const pix = createStaticPix({
+		merchantName: name,
+		merchantCity: city,
+		pixKey: key,
+		infoAdicional: 'teste',
+	});
+
+
+	if (!hasError(pix)) {
+		return pix.toBRCode();
+	} else {
+		return {
+			error: true
+		};
+	}
 
 	const formatField = (id, value) => {
 		const length = value.length.toString().padStart(2, '0');

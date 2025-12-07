@@ -1,7 +1,7 @@
 const defaultOwnerCpf = {
 	name: 'Luís Henrique de Almeida',
 	icon: '/assets/imgs/icon.png',
-	bg: 'linear-gradient(to right, #EA7243, #E0881D)',
+	bg: 'linear-gradient(to right top, #ab4319, #E0881D)',
 	type: 'cpf',
 	code: '***.445.865-**'
 };
@@ -55,12 +55,23 @@ const paymentData = {
 };
 
 /** @type {import('../../$types').PageLoad} */
-export function load({ params }) {
+export function load({ params, url }) {
 	const slugs = {
 		method: params.method,
 		value: params.value,
-		message: params.message
+		message: params.message && decodeURIComponent(params.message)
 	};
 
-	return { slugs, paymentData };
+	const search = Object.fromEntries(url.searchParams);
+
+	if (slugs.method == "enc") {
+		const dec = atob(slugs.value);
+		const params = dec.split('/');
+
+		slugs.method = params[0];
+		slugs.value = params[1];
+		slugs.message = params[2] && decodeURIComponent(params[2]);
+	}
+
+	return { slugs, search, paymentData };
 }
