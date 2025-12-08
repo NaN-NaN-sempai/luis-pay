@@ -64,7 +64,7 @@ const paymentData = {
 };
 
 /** @type {import('../../../$types').PageLoad} */
-export function load({ params, url }) {
+export function load({ params, url, data }) {
 	const slugs = {
 		method: params.method,
 		value: params.value,
@@ -82,5 +82,5 @@ export function load({ params, url }) {
 		slugs.message = params[2] && decodeURIComponent(params[2]);
 	}
 
-	return { slugs, search, paymentData };
+	return { slugs, search, paymentData, ...data };
 }

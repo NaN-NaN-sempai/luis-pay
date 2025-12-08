@@ -6,7 +6,7 @@
 	import SummarizeText from '$components/SummarizeText.svelte';
 	import Footer from '$components/footer/Footer.svelte';
 
-	export let data;
+	export let data;	
 
 	import translations from '$trad';
 	import { text } from '@sveltejs/kit';
@@ -15,6 +15,13 @@
 		texts = value;		
 	});
 </script>
+
+<svelte:head>
+	<meta property="og:title" content={data.og.title}>
+	<meta property="og:description" content={data.og.description}>
+	<meta property="og:image" content={data.og.image}>
+	<meta property="og:url" content={data.og.url}>
+</svelte:head>
 
 <div class="container">
 	<div class="outer">
