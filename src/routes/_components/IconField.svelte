@@ -2,7 +2,7 @@
 	import ContentText from "./ContentText.svelte";
     import GeneralField from "./GeneralField.svelte";
 	import QrText from "./QrText.svelte";
-	import TextField from "./textField.svelte";
+	import TextField from "./TextField.svelte";
     
     export let icon = "";
     export let bg = "transparent";
