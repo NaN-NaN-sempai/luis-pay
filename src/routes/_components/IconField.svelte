@@ -2,6 +2,7 @@
 	import ContentText from "./ContentText.svelte";
     import GeneralField from "./GeneralField.svelte";
 	import QrText from "./QrText.svelte";
+	import TextField from "./textField.svelte";
     
     export let icon = "";
     export let bg = "transparent";
@@ -25,9 +26,9 @@
         <GeneralField>
             <div class="text">
                 <ContentText>
-                    <QrText {selection}>
+                    <TextField {selection}>
                         <slot></slot>
-                    </QrText>
+                    </TextField>
                 </ContentText>
             </div>
         </GeneralField>

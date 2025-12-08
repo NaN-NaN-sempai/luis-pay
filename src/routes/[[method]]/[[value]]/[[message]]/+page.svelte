@@ -34,7 +34,7 @@
 
     .container {
         display: flex;
-        min-height: 100vh;
+        /* min-height: 100vh; */
         flex-direction: column;
         justify-content: space-between;
     }

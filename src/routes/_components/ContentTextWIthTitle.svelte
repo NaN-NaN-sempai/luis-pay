@@ -79,11 +79,12 @@
             color: palette.$highlight;
 
             &.title {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
                 font-weight: bold;
                 text-align: right;
                 text-transform: uppercase;
-                margin-right: 22px;
+                margin-right: 20px;
+                margin-bottom: 5px;
             }
         }
     }

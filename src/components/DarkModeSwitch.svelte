@@ -25,7 +25,7 @@
 
     const saveCheck = () => {        
         localStorage.setItem("darkmode", !checked);
-        changeIcon(!checked);
+        changeIcon(checked);
     }
 
     

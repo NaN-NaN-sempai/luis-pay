@@ -2,20 +2,22 @@
     export let selection = "none";
 </script>
 
-<span style="--selection: {selection}">
+<span class="qrslot" style="--selection: {selection}">
     <slot></slot>
 </span>
 
 <style lang="scss">
-    span {
+    .qrslot {
+        font-size: .8rem;
+        text-align: justify;
         user-select: var(--selection);
-        max-width: 100%;       /* altura máxima */
-        overflow: hidden;      /* esconde o excesso */
-        text-overflow: ellipsis; /* adiciona "..." */
-        display: -webkit-box;  /* necessário para limitar linhas */
-        -webkit-line-clamp: 1; /* número máximo de linhas */
-        line-clamp: 1;
+        max-width: 100%;
+        overflow: hidden;      
+        text-overflow: ellipsis; 
+        display: -webkit-box;  
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
         -webkit-box-orient: vertical;
-        word-break: break-all; /* para quebrar em qualquer caractere */
+        word-break: break-all;
     }
 </style>

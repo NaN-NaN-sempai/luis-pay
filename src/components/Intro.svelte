@@ -52,7 +52,7 @@
         if(selected.type == "pix") {
             const obj = {
                 ...selected.pixData,
-                value: isNaN(slugs.value)? null: slugs.value,
+                value: isNaN(slugs.value)? 0: slugs.value,
                 message: slugs.message,
             }
             const qr = buildPixPayload(obj); 
@@ -85,7 +85,41 @@
         goto(path);
     };
 
-    const copyCode = () => {
+    let copyTimeout;
+    const copyMessage = "O QR foi copiado!";
+    let copyMessageOriginal;
+    const animTimeouts = [];
+    const copyCode = (e) => {
+        const el = e.target;
+
+        if (copyMessageOriginal == undefined) copyMessageOriginal = el.innerText;
+
+        if(copyTimeout) clearTimeout(copyTimeout);
+        animTimeouts.forEach(t => clearTimeout(t));
+        animTimeouts.length = 0;
+
+        [...copyMessage].forEach((char, index) => {
+            animTimeouts.push(setTimeout(() => {
+                el.innerText = copyMessage.slice(0, index + 1);
+            }, index * 20));
+        })
+
+        copyTimeout = setTimeout(() => {
+            const removeSpeed = 25;
+            [...copyMessage].forEach((char, index) => {
+                animTimeouts.push(setTimeout(() => {
+                    el.innerText = copyMessage.slice(0, copyMessage.length - index - 1) || "-";
+                }, index * removeSpeed));
+            });
+
+            [...copyMessageOriginal].forEach((char, index) => {
+                animTimeouts.push(setTimeout(() => {
+                    el.innerText = copyMessageOriginal.slice(0, index + 1);
+                }, (index * 15) + 200 + copyMessage.length * removeSpeed));
+            })
+        }, 2000);
+
+
         if(navigator.clipboard){
             navigator.clipboard.writeText(pixQR);
         } else {
@@ -127,12 +161,15 @@
 
 <div class="wrapper">
     <div class="flyout">
+        <div class="hidden contacts">
+            <Year> CONTATOS </Year>
+        </div>
         <Flyout />
     </div>
     <div class="right">
         <div class="contentHeader">
             <div class="year">
-                <Year> <span class="hidden">PAY - </span> {new Date().getFullYear()} </Year>
+                <Year> <span class="hidden">PAY / </span> {new Date().getFullYear()} </Year>
             </div>
             <h1 class="title">Luís Henrique Space</h1>
         </div>
@@ -143,7 +180,11 @@
                     
                     <div class="contentArea">
                         <ContentArea>
-                            <ContentTitle>código qr</ContentTitle>
+                            <ContentBanner>
+                                <PixSvg />
+                            </ContentBanner>
+                            <div class="space" />
+
                             <GeneralField>
                                 <ContentQr bind:code={pixQR} />
                             </GeneralField>
@@ -153,13 +194,14 @@
                                         <QrText selection="all"> {pixCode} </QrText>
                                     </ContentText>
                                 </GeneralField>
-
-                                <ContentButton action={copyCode}>
+                            </div>
+                            <div class="inlineField">
+                                <ContentButton action={copyCode} type="fit-container">
                                     Copiar ©
                                 </ContentButton>
                             </div>
+                            <!-- <ModalButton type="fit-container">
                             <div class="inlineField">
-                                <!-- <ModalButton type="fit-container">
                                     <span slot="text">
                                         Ir ao app do Banco <i class="fa-solid fa-mobile-screen-button"></i>
                                     </span>
@@ -176,13 +218,9 @@
                                             </a>
                                         {/each}
                                     </ContentArea>
-                                </ModalButton> -->
+                                </ModalButton> 
                             </div>
-                            {#if selected.type == "pix"}
-                                <ContentBanner>
-                                    <PixSvg />
-                                </ContentBanner> 
-                            {/if}
+                            -->
                         </ContentArea>
                     </div>
                 {/if}
@@ -334,6 +372,10 @@
     @use "$style/_defaults" as defaults;
     @use "$style/_palette.scss" as palette;
 
+
+    .hidden {
+        display: none;
+    }
     .doHash {
         text-decoration: none;
 
@@ -368,6 +410,7 @@
             flex-direction: column;
             gap: 10px;
 
+            
             .space {
                 --size: 0;
                 height: var(--size);
@@ -400,10 +443,6 @@
 
         .year {
             margin-left: 20px;
-
-            .hidden {
-                display: none;
-            }
         }
     }
 
@@ -445,11 +484,11 @@
         }
         .wrapper {
             padding: 0;
-            flex-direction: column;
+            flex-direction: column-reverse;
             align-items: center;
 
-            .flyout {
-                margin-bottom: 10px;
+            .contacts {
+                margin-block: 40px;
             }
         }
     }

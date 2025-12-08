@@ -1985,6 +1985,7 @@ function PixSync(merchant_account, merchant_name, merchant_city, transaction_amo
     const category = "52040000";
     const currency = "5303986";
     const amount = transaction_amount ? "54" + (("" + transaction_amount).length < 10 ? "0" + ("" + transaction_amount).length : ("" + transaction_amount).length) + transaction_amount : "";
+
     const country = "5802BR";
     let name = merchant_name.length > 25 ? merchant_name.substring(0,25) : merchant_name;
     name = "59" + (name.length < 10 ? "0" + name.length : name.length) + name;
