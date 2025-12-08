@@ -17,10 +17,10 @@
         ".prettierignore": true,
         ".prettierrc": true,
         "package-lock.json": true,
-        "package.json": true,
         "playwright.config.js": true,
         "vite.config.js.timestamp-1725333916297-956a8d71fab2b.mjs": true,
-        "pnpm-lock.yaml": true
+        "pnpm-lock.yaml": true,
+        "jsconfig.json": true
     },
     "hide-files.files": [
         ".svelte-kit",
@@ -34,9 +34,9 @@
         ".prettierignore",
         ".prettierrc",
         "package-lock.json",
-        "package.json",
         "playwright.config.js",
         "vite.config.js.timestamp-1725333916297-956a8d71fab2b.mjs",
-        "pnpm-lock.yaml"
+        "pnpm-lock.yaml",
+        "jsconfig.json"
     ]
 }
