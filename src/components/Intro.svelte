@@ -130,8 +130,8 @@
     const share = (shareText) => {
         if(navigator.share) {
             navigator.share({
-                title: `Pay - Luís Henrique | Type: ${selected.type} | Value: ${slugs.value}`,
-                text: `Type: ${selected.type}\n${slugs.method}\nValue: ${slugs.value}\nMessage: ${slugs.message}`,
+                title: `Pay | Luís Henrique Space`,
+                text: `Plataforma de pagamento - Pay | Luís Henrique Space`,
                 url: shareText + location.search,
             });
 

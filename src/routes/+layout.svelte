@@ -10,7 +10,11 @@
 </script>
 
 <svelte:head>
-	<title>Pay | Luís Henrique | {new Date().getFullYear()}</title>
+	<title>Pay | Luís Henrique Space | {new Date().getFullYear()}</title>
+	<meta property="og:title" content="Pay | Luís Henrique Space">
+	<meta property="og:description" content="Plataforma de pagamento - Luís Henrique Space">
+	<meta property="og:image" content="https://pay.luishenrique.space/assets/publicShare/banner.png">
+	<meta property="og:url" content="https://pay.luishenrique.space/">
 </svelte:head>
 
 <div class="container">
