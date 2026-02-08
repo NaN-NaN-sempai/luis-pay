@@ -7,13 +7,11 @@
 
     let modal = false;
 
-    const showModal = () => {
+    export const showModal = () => {
         modal = true;
     }
 
-    const hideModal = () => {
-        console.log("CLOSE DIALOG");
-        
+    export const hideModal = () => {        
         modal = false;
     }
 </script>
@@ -38,6 +36,7 @@
         transform: translate(-50%, -50%);
         background: transparent;
         border: none;
+        z-index: 100;
     }
 
     .modalBg {
