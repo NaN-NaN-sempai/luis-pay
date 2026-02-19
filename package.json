@@ -37,6 +37,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@vercel/og": "^0.8.6",
 		"clipper-lib": "^6.4.2",
 		"geist": "^1.5.1",
 		"polygon-clipping": "^0.15.7",
