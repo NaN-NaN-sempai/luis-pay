@@ -9,6 +9,7 @@
 	import Footer from '$components/footer/Footer.svelte';
 </script>
 
+
 <div class="container">
 	<div class="inner">
 		<div class="hidden">

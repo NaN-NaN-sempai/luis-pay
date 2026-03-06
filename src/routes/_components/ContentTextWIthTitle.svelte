@@ -58,6 +58,8 @@
 
                 .coin {
                     text-align: left;
+                    width: fit-content;
+                    margin-right: 20px;
                 }
 
                 .text.value {

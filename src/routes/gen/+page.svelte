@@ -71,6 +71,13 @@
 
 </script>
 
+
+
+<svelte:head>
+	<title> Gerar cobrança | Pay | Luís Henrique Space</title>
+</svelte:head>
+
+
 <div class="container">
 	<div class="outer">
 		<div class="inner">

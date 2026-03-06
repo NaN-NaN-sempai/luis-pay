@@ -156,6 +156,11 @@
     let dmSwitch;
 </script>
 
+
+<svelte:head>
+	<title> Pay | { data.slugs.value? "R$ " + data.slugs.value + " | " : "" } { data.slugs.message? data.slugs.message + " | " : "" } { data.slugs.method? data.slugs.method + " | " : ""} Plataforma de pagamento | Luís Henrique Space</title>
+</svelte:head>
+
 <div class="wrapper">
     <div class="flyout">
         <div class="hidden contacts">
