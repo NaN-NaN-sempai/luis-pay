@@ -52,9 +52,13 @@
 
         const str = `${location.origin}/${path}`;
 
-        share(str, `${endvalue == "_"? "Valor: `a definir`": endvalue != null? "Valor: `R$" + endvalue.replace(".", ",") + "`": ""}${endMessage? `\n${"`" + message.trim() + "`"}`: ""}\n`);
-        
-        
+        share(str, `${endMessage? `${"_`" + message.trim() + "`_"}`: ""}${
+            endvalue == "_"?
+            "\n\nValor: `a definir`":
+
+            endvalue != null?
+            "\n\nValor: `R$" + endvalue.replace(".", ",") + "`":
+            ""}\n`);
     }
 
 </script>
