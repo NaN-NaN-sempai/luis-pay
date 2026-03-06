@@ -1,39 +1,102 @@
 import { ImageResponse } from '@vercel/og';
 
 export async function GET({ url }) {
-    const value = url.searchParams.get('v');
+    const value = url.searchParams.get('value');
 
-    const displayValue = value ? `R$ ${value}` : 'a definir';
+    const displayValue = value ? `R$ ${parseFloat(value).toFixed(2)}` : 'Valor a definir';
+    const message = url.searchParams.get('message') || '';
 
+    const width = 996;
+    const height = 523;
 
-    return new ImageResponse(
-        {
-            type: 'div',
-            props: {
-                style: {
-                    width: '1200px',
-                    height: '630px',
-                    backgroundImage:
-                        'url(https://pay.luishenrique.space/assets/publicShare/banner.png)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#fff',
-                    fontSize: '72px',
-                    fontWeight: '700'
-                },
-                children: [
-                    {
-                        type: 'span',
-                        props: {
-                            children: `R$ ${displayValue}`
+    let img ;
+
+    if(!value && !message) {
+        img = new ImageResponse(
+            {
+                type: 'div',
+                props: {
+                    style: {
+                        width: `${width}px`,
+                        height: `${height}px`,
+                        backgroundImage:
+                            `url(${url.origin}/assets/publicShare/banner.png)`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-end',
+                    },
+                }
+            },
+            { width, height });
+
+    } else {
+        img = new ImageResponse(
+            {
+                type: 'div',
+                props: {
+                    style: {
+                        width: `${width}px`,
+                        height: `${height}px`,
+                        backgroundImage:
+                            `url(${url.origin}/assets/publicShare/banner w val.png)`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-end',
+                    },
+                    children: [
+                        {
+                            type: "div",
+                            props: {
+                                style: {
+                                    width: (width  * 0.538)+"px",
+                                    height: "500px",
+                                    marginRight: "29px",
+                                    marginTop: "260px",
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'flex-end',
+                                },
+                                children: [
+                                    {
+                                        type: "span",
+                                        props: {
+                                            style: {
+                                                color: "#E9773C",
+                                                fontSize: "5rem",
+                                                fontWeight: "bold",
+                                                textShadow: "0 0 2px #E9773C, 0 0 2px #E9773C, 0 0 2px #E9773C",
+                                            },
+                                            children: displayValue
+                                        }
+                                    },
+                                    {
+                                        type: "span",
+                                        props: {
+                                            style: {
+                                                color: "#E9773C",
+                                                fontSize: "3rem",
+                                                fontWeight: "bold",
+                                                lineHeight: ".9",
+                                                textShadow: "0 0 2px #E9773C",
+                                                textAlign: "right",
+                                            },
+                                            children: message
+                                        }
+                                    },
+                                ]
+                            }
                         }
-                    }
-                ]
-            }
-        },
-        { width: 1200, height: 630 }
-    );
+                    ]
+                }
+            },
+            { width, height }
+        );
+    }
+
+    return img;
+    
 }

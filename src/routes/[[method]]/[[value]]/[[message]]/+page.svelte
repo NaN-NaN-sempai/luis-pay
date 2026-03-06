@@ -6,7 +6,20 @@
 	import SummarizeText from '$components/SummarizeText.svelte';
 	import Footer from '$components/footer/Footer.svelte';
 
-	export let data;	
+	export let data;
+
+	if(data.slugs.value || data.slugs.message) {
+		const params = new URLSearchParams();
+
+		if (data.slugs.value) params.set("value", data.slugs.value);
+		if (data.slugs.message) params.set("message", data.slugs.message);
+		
+		data.og.imageSearch = data.og.image + "?" + params.toString();
+	}
+
+	console.log(data);
+	
+	
 
 	import translations from '$trad';
 	import { text } from '@sveltejs/kit';
@@ -19,7 +32,7 @@
 <svelte:head>
 	<meta property="og:title" content={data.og.title}>
 	<meta property="og:description" content={data.og.description}>
-	<meta property="og:image" content={data.og.image}>
+	<meta property="og:image" content={data.og.imageSearch || data.og.image}>
 	<meta property="og:url" content={data.og.url}>
 </svelte:head>
 

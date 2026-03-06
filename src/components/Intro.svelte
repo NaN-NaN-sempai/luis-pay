@@ -1,11 +1,9 @@
 <script>
     import Year from "./Year.svelte";
-    import Content from "./content/Content.svelte";
     import Flyout from "./flyout/Flyout.svelte";
     
     import translations from "$trad"; 
 	import ContentPanel from "../routes/_components/ContentPanel.svelte";
-	import Qrteste from "../routes/_components/qrteste.svelte";
 	import ContentArea from "../routes/_components/ContentArea.svelte";
 	import ContentTitle from "../routes/_components/ContentTitle.svelte";
 	import GeneralField from "../routes/_components/GeneralField.svelte";
@@ -18,7 +16,6 @@
 	import ContentTextWIthTitle from "../routes/_components/ContentTextWIthTitle.svelte";
 	import IconField from "../routes/_components/IconField.svelte";
 	import { goto } from "$app/navigation";
-	import { page } from "$app/stores";
 	import { onMount } from "svelte";
 	import DarkModeSwitch from "./DarkModeSwitch.svelte";
 	import BrazilFlag from "../routes/_components/svg/brazilFlag.svelte";
