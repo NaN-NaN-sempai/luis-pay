@@ -16,8 +16,6 @@
 		
 		data.og.imageSearch = data.og.image + "?" + params.toString();
 	}
-
-	console.log(data);
 	
 	
 
