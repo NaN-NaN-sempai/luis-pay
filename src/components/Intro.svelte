@@ -128,7 +128,7 @@
         if(navigator.share) {
             navigator.share({
                 title: `Pay | Luís Henrique Space`,
-                text: `Plataforma de pagamento - Pay | Luís Henrique Space`,
+                text: `Plataforma de pagamento - Pay | Luís Henrique Space\n`,
                 url: shareText + location.search,
             });
 

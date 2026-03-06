@@ -61,10 +61,10 @@
             }${
 
             endvalue == "_"?
-            "\n\nValor: `a definir`":
+            "\nValor: `a definir`":
 
             endvalue != null?
-            "\n\nValor: `R$" + endvalue.replace(".", ",") + "`\n\n" :
+            `\nValor: \`R$ ${endvalue.replace(".", ",")}\`\n` :
             ""
         }`);
     }
