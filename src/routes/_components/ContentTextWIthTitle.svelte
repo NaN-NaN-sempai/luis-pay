@@ -29,7 +29,7 @@
                 <div class="displayText">
                     {#if type == "value"}
                     <p class="coin"> R$ </p>
-                    <input class="text value" type="text" bind:value={displayText} {readonly} {placeholder} on:input={onchange} />
+                    <input class="text value" type="number" bind:value={displayText} {readonly} {placeholder} on:input={onchange} />
 
                     
                     {:else}
@@ -64,6 +64,16 @@
                     text-align: right;
                     width:100%;
                     font-size: 1rem;
+                }
+
+                .text.value[type="number"] {
+                    /* hide buttons */
+                    -moz-appearance: textfield;
+                    &::-webkit-outer-spin-button,
+                    &::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                    }
                 }
                 
                 input.text {
