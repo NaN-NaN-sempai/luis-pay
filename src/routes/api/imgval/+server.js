@@ -11,6 +11,9 @@ export async function GET({ url }) {
 
     let img ;
 
+    console.log(((11 - displayValue.length) * 1 ));
+    
+
     if(!value && !message) {
         img = new ImageResponse(
             {
@@ -53,11 +56,12 @@ export async function GET({ url }) {
                             props: {
                                 style: {
                                     width: (width  * 0.538)+"px",
-                                    height: "500px",
-                                    marginRight: "29px",
+                                    height: "233px",
+                                    marginRight: "22px",
                                     marginTop: "260px",
                                     display: 'flex',
                                     flexDirection: 'column',
+                                    justifyContent: message? 'space-between': 'center',
                                     alignItems: 'flex-end',
                                 },
                                 children: [
@@ -66,7 +70,7 @@ export async function GET({ url }) {
                                         props: {
                                             style: {
                                                 color: "#E9773C",
-                                                fontSize: "5rem",
+                                                fontSize: Math.max(40, 155 - (displayValue.length * 6)) + "px",
                                                 fontWeight: "bold",
                                                 textShadow: "0 0 2px #E9773C, 0 0 2px #E9773C, 0 0 2px #E9773C",
                                             },
@@ -82,7 +86,12 @@ export async function GET({ url }) {
                                                 fontWeight: "bold",
                                                 lineHeight: ".9",
                                                 textShadow: "0 0 2px #E9773C",
+                                                border: "6px solid #E9773C",
+                                                padding: "10px",
+                                                paddingTop: "0",
+                                                borderRadius: "10px",
                                                 textAlign: "right",
+                                                display: message? "block": "none",
                                             },
                                             children: message
                                         }
