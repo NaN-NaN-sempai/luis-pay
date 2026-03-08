@@ -6,9 +6,9 @@ export async function GET({ url }) {
     const value = url.searchParams.get('value');
 
     const displayValue = value ? `R$ ${parseFloat(value).toFixed(2)}` : 'Valor a definir';
-    let message = url.searchParams.get('name') || '';
+    let message = url.searchParams.get('name') || 'Novo Orçamento';
 
-	message = message? `~ ${message} ~`: '';
+	message = `~ ${message} ~`;
 
 
     const width = 996;
