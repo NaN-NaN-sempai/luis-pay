@@ -28,7 +28,7 @@ export async function GET({ url }) {
 					width: `${width}px`,
 					height: `${height}px`,
 					backgroundImage:
-						`url(${url.origin}/assets/publicShare/banner.png)`,
+						`url(${url.origin}/assets/publicShare/toolsMetalonBanner.png)`,
 					backgroundSize: 'cover',
 					backgroundPosition: 'center',
 					display: 'flex',
